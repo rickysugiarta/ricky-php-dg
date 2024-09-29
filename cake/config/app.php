@@ -170,7 +170,7 @@ return [
      *   your application that still emit deprecations.
      */
     'Error' => [
-        'errorLevel' => E_ALL,
+        'errorLevel' => E_ERROR,
         'skipLog' => [],
         'log' => true,
         'trace' => true,
