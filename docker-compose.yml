@@ -9,6 +9,7 @@ services:
         - ./mysql/docker-data-files:/var/lib/mysql-files
         - ./cake:/var/www/myapp
         - ./mysql/my.cnf:/etc/mysql/my.cnf
+        - ./mysql/:/etc/mysql/myhost-mysql/
     ports:
       - "8106:3306"
     environment:
@@ -29,6 +30,11 @@ services:
     build: ./cake
     container_name: ricky-cake
     working_dir: /var/www/myapp
+    environment:
+      - DG_HOST=${DG_HOST}
+      - DG_USERNAME=${DG_USERNAME}
+      - DG_KEY=${DG_KEY}
+      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@ricky-mysql:3306/${MYSQL_DATABASE}?encoding=utf8&timezone=UTC&cacheMetadata=true&quoteIdentifiers=false&persistent=false
     volumes:
       - ./cake:/var/www/myapp
       - ./cake/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini
