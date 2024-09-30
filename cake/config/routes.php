@@ -59,6 +59,7 @@ return function (RouteBuilder $routes): void {
 
         $builder->connect('/cars', ['controller' => 'Cars', 'action' => 'index']);
         $builder->connect('/cars/pull-data', ['controller' => 'Cars', 'action' => 'pullData']);
+        $builder->connect('/cars/pull-data/*', ['controller' => 'Cars', 'action' => 'pullQuotesData']);
         $builder->connect('/cars/*', ['controller' => 'Cars', 'action' => 'view']);
 
         /*

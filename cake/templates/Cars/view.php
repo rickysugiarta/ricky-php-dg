@@ -4,7 +4,7 @@
 
 
 <div>
-    <?= $this->Html->link('Get More Quotes from DG Server', '/cars/pull-data') ?>
+    <?= $this->Html->link('Get More Quotes from DG Server', '/cars/pull-data/'.$car->slug) ?>
 </div>
 <table>
     <tr>

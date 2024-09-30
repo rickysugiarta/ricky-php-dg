@@ -14,6 +14,7 @@ class CarsController extends AppController
         $this->set(compact('cars'));
     }
     
+    // pulling cars data
     public function pullData()
     {
         // get data from external host
@@ -23,12 +24,12 @@ class CarsController extends AppController
           'key' => env('DG_KEY'),
         ]);
         $jsonReponse = $response->getJson();
-        
+
         if ($jsonReponse['success'] != 'ok'){
             // exit early, get data failed
             return $this->redirect('/cars');
         }
-        
+
         foreach ($jsonReponse['cars'] as $car) {
             // check data if already exist
             $query = $this->Cars->findByLicensePlateAndLicenseState($car['licensePlate'], $car['licenseState']);
@@ -51,8 +52,54 @@ class CarsController extends AppController
             // save to db
             $carsTable->save($newCar);
         }
-        
+
         return $this->redirect('/cars');
+    }
+
+    // pulling quotes data of a car
+    public function pullQuotesData($slug)
+    {
+        // length validation
+        if(strlen($slug)<4){
+            return $this->redirect('/cars');
+        }
+
+        // deconstruct slug
+        $tempCar = $this->fetchTable('Cars')->newEmptyEntity();
+        $tempCar->slug = $slug;
+
+        // get data from external host
+        $http = new Client();
+        $response = $http->post(env('DG_HOST').'/quotes', [
+          'username' => env('DG_USERNAME'),
+          'key' => env('DG_KEY'),
+          'licensePlate' => $tempCar->license_plate,
+          'licenseState' => $tempCar->license_state,
+        ]);
+        $jsonReponse = $response->getJson();
+
+        if ($jsonReponse['success'] != 'ok'){
+            // exit early, get data failed
+            return $this->redirect('/cars/'.$slug);
+        }
+
+        foreach ($jsonReponse['quotes'] as $quote) {
+            // init db row object
+            $quotesTable = $this->fetchTable('Quotes');
+            $newQuote = $quotesTable->newEntity([
+                'license_plate' => $tempCar->license_plate,
+                'license_state' => $tempCar->license_state,
+                'price' => $quote['price'],
+                'repairer' => $quote['repairer'],
+                'overview_of_work' => $quote['overviewOfWork'],
+                'created' => new \DateTime('now'),
+                'modified' => new \DateTime('now')
+            ]);
+            // save to db
+            $quotesTable->save($newQuote);
+        }
+
+        return $this->redirect('/cars/'.$slug);
     }
 
     public function view($slug = null)
