@@ -1,4 +1,7 @@
 <h1>Cars</h1>
+<div>
+    <?= $this->Html->link('Pull Data from DG Server', '/cars/pull-data') ?>
+</div>
 <table>
     <tr>
         <th>License Plate</th>
@@ -10,6 +13,7 @@
         <th>Model</th>
         <th>Created</th>
         <th>Modified</th>
+        <th>Quotes</th>
     </tr>
 
     <!-- Here is where we iterate through our $articles query object, printing out article info -->
@@ -42,6 +46,9 @@
         </td>
         <td>
             <?= $car->modified ?>
+        </td>
+        <td>
+            <?= $this->Html->link('View', ['action' => 'view', $car->slug]) ?>
         </td>
     </tr>
     <?php endforeach; ?>

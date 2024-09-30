@@ -8,13 +8,13 @@ use Cake\Console\ConsoleIo;
 
 class CarsController extends AppController
 {
-    public function index()
+    public function index($slug = null)
     {
         $cars = $this->paginate($this->Car);
         $this->set(compact('cars'));
     }
     
-    public function ingress()
+    public function pullData()
     {
         // get data from external host
         $http = new Client();
@@ -53,6 +53,32 @@ class CarsController extends AppController
         }
         
         return $this->redirect('/cars');
+    }
+
+    public function view($slug = null)
+    {
+        // length validation
+        if(strlen($slug)<4){
+            return $this->redirect('/cars');
+        }
+
+        // deconstruct slug
+        $tempCar = $this->fetchTable('Cars')->newEmptyEntity();
+        $tempCar->slug = $slug;
+
+        // get car
+        $query = $this->Cars->findByLicensePlateAndLicenseState($tempCar->license_plate, $tempCar->license_state);
+        $car = $query->first();
+        //if car not found / invalid slug
+        if ( $car == null ) {
+            return $this->redirect('/cars');
+        }
+
+        // get car quotes
+        $query = $this->Cars->Quotes->findByLicensePlateAndLicenseState($tempCar->license_plate, $tempCar->license_state);
+        $quotes = $query->all();
+
+        $this->set(compact('car','quotes'));
     }
 }
 

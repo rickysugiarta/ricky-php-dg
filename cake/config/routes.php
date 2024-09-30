@@ -57,6 +57,10 @@ return function (RouteBuilder $routes): void {
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
+        $builder->connect('/cars', ['controller' => 'Cars', 'action' => 'index']);
+        $builder->connect('/cars/pull-data', ['controller' => 'Cars', 'action' => 'pullData']);
+        $builder->connect('/cars/*', ['controller' => 'Cars', 'action' => 'view']);
+
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */
