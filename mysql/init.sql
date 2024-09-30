@@ -25,7 +25,7 @@ CREATE TABLE quotes (
     created DATETIME,
     modified DATETIME,
     FOREIGN KEY fk_car (license_plate, license_state) REFERENCES cars(license_plate, license_state)
-) 
+);
 
 INSERT INTO cars
 VALUES
