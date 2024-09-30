@@ -9,8 +9,6 @@
 <table>
     <tr>
         <th>ID</th>
-        <th>License Plate</th>
-        <th>License State</th>
         <th>Price</th>
         <th>Repairer</th>
         <th>Overview of Work</th>
@@ -20,12 +18,6 @@
     <tr>
         <td>
             <?= $quote->id ?>
-        </td>
-        <td>
-            <?= $quote->license_plate ?>
-        </td>
-        <td>
-            <?= $quote->license_state ?>
         </td>
         <td>
             <?= $quote->price ?>
