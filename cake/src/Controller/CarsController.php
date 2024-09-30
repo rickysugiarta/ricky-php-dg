@@ -66,7 +66,7 @@ class CarsController extends AppController
 
         // deconstruct slug
         $tempCar = $this->fetchTable('Cars')->newEmptyEntity();
-        $tempCar->slug = $slug;
+        $tempCar->slug = strtoupper($slug);
 
         // get data from external host
         $http = new Client();
