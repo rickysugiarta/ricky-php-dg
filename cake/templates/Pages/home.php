@@ -83,6 +83,9 @@ endif;
             <h1>
                 Welcome to CakePHP <?= h(Configure::version()) ?> Chiffon (🍰)
             </h1>
+            <h2>
+                <a rel="noopener" href="/cars">Click Here to go to Ricky Result page of Car PHP Test</a>
+            </h2>
         </div>
     </header>
     <main class="main">
